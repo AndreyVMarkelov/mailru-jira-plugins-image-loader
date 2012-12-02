@@ -1,0 +1,48 @@
+<!-- Created by Dmitry Miroshnichenko 01-12-2012. Copyright Mail.Ru Group  2012. All rights reserved. -->
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+        <param name="plugin-logo">/resources/refresh.png</param>
+        <param name="plugin-icon">/resources/refresh.png</param>
+        <param name="vendor-icon">/resources/icon.png</param>
+        <param name="vendor-logo">/resources/logo.png</param>
+    </plugin-info>
+
+    <resource type="i18n" name="i18n" location="i18n/mailru-image-loader" />
+
+    <web-resource key="mailru-issue-image-loader-resources" name="Issue image loader resources">
+        <resource type="download" name="mail-issue-image-loader.js" location="resources/mail-issue-image-loader.js" />
+        <context>jira.general</context>
+    </web-resource>
+
+    <component key="mailru-plugin-settings-manager" name="Plugin settings manager" class="ru.mail.plugins.imageloader.settings.PluginSettingsManager" />
+    <component-import key="pluginSettingsFactory">
+        <interface>com.atlassian.sal.api.pluginsettings.PluginSettingsFactory</interface>
+    </component-import>
+    <component-import key="applicationProperties">
+        <interface>com.atlassian.sal.api.ApplicationProperties</interface>
+    </component-import>
+
+    <servlet key="mailru-issue-image-loader" class="ru.mail.plugins.imageloader.servlets.MailIssueImageLoaderServlet">
+        <url-pattern>/mailru/imageloader/issue</url-pattern>
+    </servlet>
+
+    <webwork1 key="mailru_issue_image_loader" name="Issue Image Loader Action" class="java.lang.Object">
+        <actions>
+            <action name="ru.mail.plugins.imageloader.webworks.MailRuIssueImageLoaderAdminAction" alias="MailRuIssueImageLoaderAdminAction">
+                <view name="input">/templates/actions/issue-image-loader.vm</view>
+                <view name="success">/templates/actions/issue-image-loader.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+
+    <web-item key="mailru_issue_image_loader_item" name="Issue Image Loader" section="system.admin/globalsettings" weight="100">
+        <label key="mailru.image.loader.admin.tab.label" />
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.JiraGlobalPermissionCondition">
+            <param name="permission">admin</param>
+        </condition>
+        <link linkId="mailru_issue_image_loader_item">/secure/MailRuIssueImageLoaderAdminAction!default.jspa</link>
+    </web-item>
+</atlassian-plugin>
