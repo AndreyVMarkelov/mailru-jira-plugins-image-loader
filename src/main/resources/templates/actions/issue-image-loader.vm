@@ -8,6 +8,7 @@
     <body>
     #if($action.hasAdminPermission())
         <h2 class="margin: 12px;">$action.getText("mailru.image.loader.admin.tab.title")</h2>
+		<h5 class="margin: 12px;">$action.getText("mailru.image.loader.admin.label.issuetab")</h5>
         <table width="100%" class="grid aui">
             <thead class="jiraformheader">
                 <tr>
@@ -19,7 +20,7 @@
             </thead>
             <tbody>
             #foreach($projData in $projIssueTypes.keySet())
-            #foreach($issueTypeData in $projIssueTypes.get($projData))
+				#foreach($issueTypeData in $projIssueTypes.get($projData))
                 <tr>
                     <td width="15%" class="jiraformbody">
                         $projData.name #if($projData.description) - $projData.description #end
@@ -37,10 +38,41 @@
                         </form>
                     </td>
                 </tr>
+				#end
             #end
-            #end
-            <tbody>
+            </tbody>
         </table>
+		<h5 class="margin: 12px;">$action.getText("mailru.image.loader.admin.label.projecttab")</h5>
+		<table width="100%" class="grid aui">
+            <thead class="jiraformheader">
+                <tr>
+                    <td width="15%"><b>$i18n.getText("mailru.image.loader.admin.tab.table.header.project")</b></td>
+					<td width="15%"></td>
+                    <td width="30%"><b>$i18n.getText("mailru.image.loader.admin.tab.table.header.icon")</b></td>
+                    <td width="40%"><b>$i18n.getText("mailru.image.loader.admin.tab.table.header.action")</b></td>
+                </tr>
+            </thead>
+			<tbody>
+			#foreach($projData in $projIssueTypes.keySet())
+			<tr>
+                    <td width="15%" class="jiraformbody">
+                        $projData.name #if($projData.description) - $projData.description #end
+                    </td>
+					<td width="15%"></td>
+                    <td width="30%" class="jiraformbody">
+                        <img alt="" height="auto" width="auto" src="$action.getBaseUrl()/plugins/servlet/mailru/imageloader/issue?projectname=$projData.name&issuetypename=">
+                    </td>
+                    <td width="40%" class="jiraformbody">
+                        <form id="image-loader-$projData.key" name="image-load-form" action="$action.getBaseUrl()/plugins/servlet/mailru/imageloader/issue?projectname=$projData.name&issuetypename=" method="post" enctype="multipart/form-data">
+                            <input type="file" name="image-file">
+                            <input type="submit" value="$i18n.getText("mailru.image.loader.admin.tab.table.button.change")">
+                        </form>
+                    </td>
+                </tr>
+			#end
+            </tbody>
+			</table>
+		
     #else
         <div class="errorArea">$action.getText("mailru.image.loader.admin.error.permissions")</div>
     #end

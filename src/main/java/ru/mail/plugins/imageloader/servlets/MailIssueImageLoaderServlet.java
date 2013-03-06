@@ -71,7 +71,7 @@ public class MailIssueImageLoaderServlet
         String issueTypeName = req.getParameter("issuetypename");
         String avatarSrc = req.getParameter("avatarSrc");
 
-        if (!Utils.isValidStr(projectName) || !Utils.isValidStr(issueTypeName))
+        if (!Utils.isValidStr(projectName) || issueTypeName == null)
         {
             resp.sendRedirect(avatarSrc);
             return;
@@ -122,7 +122,7 @@ public class MailIssueImageLoaderServlet
         String projectName = req.getParameter("projectname");
         String issueTypeName = req.getParameter("issuetypename");
 
-        if (!Utils.isValidStr(projectName) || !Utils.isValidStr(issueTypeName))
+        if (!Utils.isValidStr(projectName) || issueTypeName == null)
         {
             log.error("MailIssueImageLoaderServlet::doPost - Incorrect input parameters");
             resp.sendError(404);
@@ -203,6 +203,15 @@ public class MailIssueImageLoaderServlet
                     {
                         item.write(file);
                         scale(file.getAbsolutePath(), 48, 48, file.getAbsolutePath());
+                        String oldFileName = pluginSettingsManager.getIssueTypeImage(projectName, issueTypeName);
+                        if (oldFileName != null)
+                        {
+                            File oldFile = new File(jiraHomeImg, oldFileName);
+                            if (oldFile.exists())
+                            {
+                                oldFile.delete();
+                            }
+                        }
                         pluginSettingsManager.setIssueTypeImage(fileName, projectName, issueTypeName);
                     }
                 }

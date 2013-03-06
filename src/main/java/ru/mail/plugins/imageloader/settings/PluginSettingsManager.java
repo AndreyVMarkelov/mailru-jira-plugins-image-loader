@@ -15,7 +15,7 @@ public class PluginSettingsManager
     implements IPluginSettingsManager
 {
     public static final String FORMAT_APPENDER_ISSUE_TYPE_IMAGE = "_issueimage";
-
+    
     private final PluginSettingsFactory pluginSettingsFactory;
 
     public PluginSettingsManager(final PluginSettingsFactory pluginSettingsFactory)
