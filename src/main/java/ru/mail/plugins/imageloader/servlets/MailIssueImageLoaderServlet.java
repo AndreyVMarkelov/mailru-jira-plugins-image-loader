@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.log4j.Logger;
 import ru.mail.plugins.imageloader.common.Utils;
 import ru.mail.plugins.imageloader.settings.PluginSettingsManager;
@@ -76,6 +77,9 @@ public class MailIssueImageLoaderServlet
             resp.sendRedirect(avatarSrc);
             return;
         }
+
+        projectName = URIUtil.decode(projectName);
+        issueTypeName = URIUtil.decode(issueTypeName);
 
         JiraAuthenticationContext jiraContext = ComponentAccessor.getJiraAuthenticationContext();
         User user = jiraContext.getLoggedInUser();

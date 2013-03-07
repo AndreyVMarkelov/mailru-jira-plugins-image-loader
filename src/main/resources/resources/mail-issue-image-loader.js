@@ -1,9 +1,9 @@
 /*
- * Created by Dmitry Miroshnichenko 01-12-2012. Copyright Mail.Ru Group 2012.
- * All rights reserved.
+ * Created by Andrey Markelov 12-03-2013.
+ * Copyright Mail.Ru Group 2013. All rights reserved.
  */
 jQuery(document).ready(function() {
-    var contextPath = "/jira"; //--> forexample, /jira
+    var contextPath = window.contextPath; //--> forexample, /jira
 
     jQuery("#heading-avatar").hide();
     var projectElem = jQuery('#project-name-val');
